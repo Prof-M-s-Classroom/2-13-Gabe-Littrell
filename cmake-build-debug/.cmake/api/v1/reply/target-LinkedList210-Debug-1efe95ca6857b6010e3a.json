@@ -2,7 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "LinkedList210"
+			"path" : "LinkedList210.exe"
+		},
+		{
+			"path" : "LinkedList210.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -35,10 +38,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.4.sdk -fcolor-diagnostics"
-				},
-				{
-					"fragment" : "-std=gnu++2b"
+					"fragment" : "-g -std=gnu++23 -fdiagnostics-color=always"
 				}
 			],
 			"language" : "CXX",
@@ -68,12 +68,16 @@
 			{
 				"fragment" : "",
 				"role" : "flags"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
 	},
 	"name" : "LinkedList210",
-	"nameOnDisk" : "LinkedList210",
+	"nameOnDisk" : "LinkedList210.exe",
 	"paths" : 
 	{
 		"build" : ".",

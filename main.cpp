@@ -99,6 +99,14 @@ public:
             return;
         }
 
+        else {
+            Node<T>* temp = get(index);
+            Node<T>* tempPrev = get(index - 1);
+            tempPrev->next = temp->next;
+            delete temp;
+            length--;
+        }
+
 
     }
 
