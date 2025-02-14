@@ -28,20 +28,27 @@ template <typename T> class LinkedList {
 private:
     int length;
     Node<T> *head;
+    Node<T>* tail;
 
 public:
     LinkedList(T *value) {
         this->length = 1;
         this->head = new Node<T>(value);
+        this->tail = new Node<T>(value);
+    }
+    ~LinkedList() {
+        Node<T> *current = this->head;
+        while (head) {
+            head = head->next;
+            delete current;
+            current = head;
+        }
     }
     void add(T *value) {
         Node<T> *newNode = new Node<T>(value);
-        Node<T> *temp = head;
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-        length++;
+        this->tail->next = newNode;
+        this->tail = newNode;
+        this->length++;
     }
 
     void addhead(T *value) {
@@ -59,23 +66,79 @@ public:
     }
 
     void dellast() {
-        Node<T> *temp = head;
-        while (temp->next!=NULL)
-            temp = temp->next;
+        Node<T> *temp = tail;
         delete temp;
         length--;
     }
 
+    Node<T>* get(int index) {
+        if (index < 0 || index >= length) {
+            return nullptr;
+        }
+        Node<T>* temp = head;
+
+        for (int i = 0; i < index; i++) {
+            temp = temp->next;
+        }
+        return temp;
+    }
+
     void deleteNode(int index) {
        //TODO:Write the function to delete at the given index. Reuse the pre-written functions for edge cases. Account for missing index.
+        if (index < 0 || index >= length) {
+            cout << "Invalid index." << endl;
+            return;
+        }
+        if (index == 0) {
+            delfirst();
+            return;
+        }
+
+        if (index == length) {
+            dellast();
+            return;
+        }
+
+
     }
 
    void insert(int index, T *value) {
         //TODO:Write a function to insert a new node at a give index. Reuse the pre-written functions for edge cases. Account for missing index
+        if (index < 0 || index > length) {
+            cout << "Index is invalid." << endl;
+            return;
+        }
+
+        if (index == 0) {
+            addHead(value);
+        }
+
+        if (index == length) {
+            add(value);
+        }
+
+        else {
+            Node<T>* newNode = new Node<T>(value);
+            Node<T>* temp = get(index - 1);
+            newNode-next = temp->next;
+            temp->next = newNode;
+            length++;
+        }
     }
 
    void reverselist(){
         //TODO:Write a function to reverse the list using the logic from the slide.
+        Node<T>* previous = NULL;
+        Node<T>* current = head;
+        Node<T>* next;
+
+        while (current != NULL) {
+            next = current->next;
+            current->next = previous;
+            previous = current;
+            current = next;
+        }
+        head = previous;
     }
 
     void print() {
