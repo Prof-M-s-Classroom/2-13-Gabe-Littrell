@@ -28,13 +28,14 @@ template <typename T> class LinkedList {
 private:
     int length;
     Node<T> *head;
-    Node<T>* tail;
+    Node<T> *tail;
 
 public:
     LinkedList(T *value) {
-        this->length = 1;
-        this->head = new Node<T>(value);
-        this->tail = new Node<T>(value);
+        Node<T> *newNode = new Node<T>(value);
+        length = 1;
+        head = newNode;
+        tail = newNode;
     }
     ~LinkedList() {
         Node<T> *current = this->head;
@@ -46,9 +47,9 @@ public:
     }
     void add(T *value) {
         Node<T> *newNode = new Node<T>(value);
-        this->tail->next = newNode;
-        this->tail = newNode;
-        this->length++;
+        tail->next = newNode;
+        tail = newNode;
+        length++;
     }
 
     void addhead(T *value) {
@@ -66,7 +67,19 @@ public:
     }
 
     void dellast() {
-        Node<T> *temp = tail;
+        Node<T> *temp = head;
+        if (length == 1) {
+            head = nullptr;
+            tail = nullptr;
+        } else {
+            Node<T> *pre = head;
+            while (temp->next) {
+                pre = temp;
+                temp = temp->next;
+            }
+            tail = pre;
+            tail->next = nullptr;
+        }
         delete temp;
         length--;
     }
@@ -94,7 +107,7 @@ public:
             return;
         }
 
-        if (index == length) {
+        if (index == length - 1) {
             dellast();
             return;
         }
@@ -118,17 +131,19 @@ public:
         }
 
         if (index == 0) {
-            addHead(value);
+            addhead(value);
+            return;
         }
 
         if (index == length) {
             add(value);
+            return;
         }
 
         else {
             Node<T>* newNode = new Node<T>(value);
             Node<T>* temp = get(index - 1);
-            newNode-next = temp->next;
+            newNode->next = temp->next;
             temp->next = newNode;
             length++;
         }
@@ -167,8 +182,16 @@ int main() {
     ll->add(s2);
     ll->addhead(s3);
     ll->print();
+    ll->reverselist();
+    ll->print();
+    ll->deleteNode(1);
+    ll->print();
+    ll->insert(1, s1);
+    ll->print();
     ll->delfirst();
     ll->print();
     ll->dellast();
+    ll->print();
+    ll->~LinkedList();
     ll->print();
 }
